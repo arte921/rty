@@ -49,6 +49,7 @@ let deg = rad => rad / Math.PI * 180
 
 let rad = deg => deg / 180 * Math.PI
 
+// ############################# begin main part #############################
 
 const width = 80
 const height = 80
