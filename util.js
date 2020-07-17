@@ -1,3 +1,4 @@
+
 function sphereDistance (pos, sphere) {
     return Math.sqrt(
         (pos[0] - sphere[0]) ** 2   +
@@ -47,8 +48,3 @@ function length (vec) {
 let deg = rad => rad / Math.PI * 180
 
 let rad = deg => deg / 180 * Math.PI
-
-function plot (x, y, color = "#000000") {
-    ctx.fillStyle = color
-    ctx.fillRect(x, y, 1, 1)
-}

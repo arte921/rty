@@ -1,14 +1,59 @@
-let canvas = document.getElementById("canvas")
-let ctx = canvas.getContext("2d")
 
-const width = 800
-const height = 800
+function sphereDistance (pos, sphere) {
+    return Math.sqrt(
+        (pos[0] - sphere[0]) ** 2   +
+        (pos[1] - sphere[1]) ** 2   +
+        (pos[2] - sphere[2]) ** 2   )
+        - sphere[3]
+}
 
-canvas.width = width
-canvas.height = height
+function closestSphereDist (pos, scene) {
+    return Math.min(...scene.map(sphere => sphereDistance(pos, sphere)))
+}
+
+function add (a, b, multiplier = 1) {
+    let result = []
+    for (let i=0; i < a.length; i++) result.push(a[i] + b[i] * multiplier)
+    return result
+}
+
+function substract (a, b) {
+    let result = []
+    for (let i=0; i < a.length; i++) result.push(a[i] - b[i])
+    return result
+}
+
+function multiply (a, b) {
+    let result = []
+    for (let i=0; i < a.length; i++) result.push(a[i] * b[i])
+    return result
+}
+
+function divide (a, b) {
+    let result = []
+    for (let i=0; i < a.length; i++) result.push(a[i] / b[i])
+    return result
+}
+
+function withLength (vec, length) {
+    
+}
+
+function length (vec) {
+    let sq = 0
+    for (let i=0; i < vec.length; i++) sq += vec[i] ** 2
+    return Math.sqrt(sq)
+}
+
+let deg = rad => rad / Math.PI * 180
+
+let rad = deg => deg / 180 * Math.PI
+
+
+const width = 80
+const height = 80
 
 function calc (scene, camera) {
-    
     let direction = camera[1]
     let sphere = scene[0]
     console.log(scene)
@@ -16,8 +61,9 @@ function calc (scene, camera) {
     let oglat = direction[0]
     let oglon = direction[1]
 
-    for (let x=0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
+    for (let y = 0; y < height; y++) {
+        let line = ""
+        for (let x=0; x < width; x++) {
 
             let screenpos = [x, y]
             let pos = camera[0]
@@ -41,21 +87,18 @@ function calc (scene, camera) {
                 pos = add(pos, d, dist)
                 totaldist += dist
                 dist = closestSphereDist(pos, scene)
-                // console.log(dist)
             } 
             
-            // console.log(x, y, dist)
+            
             if (dist <= 1) {
-                plot(x, y, "#FF0000")
-                
+                line += "##"
             } else {
-                plot(x, y, "#00FF00")
+                line += "  "
             }
-
         }
+        console.log(line)
     }
 }
-
 
 
 let scene = [
