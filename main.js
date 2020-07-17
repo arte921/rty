@@ -1,8 +1,8 @@
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 
-const width = 800
-const height = 800
+const width = 80
+const height = 80
 
 canvas.width = width
 canvas.height = height
@@ -57,8 +57,8 @@ function calc (scene, camera) {
 
 
 let scene = [
-    [10, 0, 0, 5],
-    [5, 5, 0, 3]
+    [10, 0, 0, 3],
+    [5, 10, 0, 3]
 ]
 
 // lat: north-south, rotates around x,y plane
@@ -67,12 +67,18 @@ let scene = [
 // [[x, y, z], [lat, lon]]
 let camera = [
     [0, 0, 0],
-    [rad(90), 0]
+    [Math.PI / 2, 0]
 ]
 
-calc(
-    scene,
-    camera
-)
+function move () {
+    calc(scene, camera)
 
+    camera = [
+        add(camera[0], [7.5, 5, 0], 1 / 60),
+        add(camera[1], [0, 1], rad(100) / 60)
+    ]
 
+    window.requestAnimationFrame(move)
+}
+
+window.requestAnimationFrame(move)
