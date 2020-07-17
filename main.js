@@ -41,10 +41,8 @@ function calc (scene, camera) {
                 pos = add(pos, d, dist)
                 totaldist += dist
                 dist = closestSphereDist(pos, scene)
-                // console.log(dist)
             } 
             
-            // console.log(x, y, dist)
             if (dist <= 1) {
                 plot(x, y, "#FF0000")
                 
