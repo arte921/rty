@@ -1,46 +1,53 @@
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 
-let width = 800
-let height = 800
+const width = 800
+const height = 800
 
 canvas.width = width
 canvas.height = height
 
 function calc (scene, camera) {
-    let pos = camera[0]
+    
     let direction = camera[1]
     let sphere = scene[0]
+    console.log(scene)
     let screensize = [width, height]
-    let oglat = direction[0] //north-south, rotates around y
-    let oglon = direction[1] //east-west, rotates around z
+    let oglat = direction[0]
+    let oglon = direction[1]
 
     for (let x=0; x < width; x++) {
         for (let y = 0; y < height; y++) {
 
             let screenpos = [x, y]
+            let pos = camera[0]
 
             let screenpart = divide(screenpos, screensize)
 
-            let lat = oglat + (screenpart[1] - 0.5) * Math.PI / 2
+            let lat = oglat + (screenpart[1] - 0.5) * Math.PI
             let lon = oglon + (screenpart[0] - 0.5) * Math.PI
 
-            let d = [Math.cos(lon) * Math.sin(lat), Math.sin(lon) * Math.sin(lat), Math.cos(lat)]
+            let d = [
+                Math.cos(lon) * Math.sin(lat),
+                Math.sin(lon) * Math.sin(lat),
+                Math.cos(lat)
+            ]
         
-            //console.log(d)
             let totaldist = 0
             
-            let dist = sphereDistance(pos, sphere)
+            let dist = closestSphereDist(pos, scene)
             
             while (dist > 1 && totaldist < 1000) {
                 pos = add(pos, d, dist)
                 totaldist += dist
-                dist = sphereDistance(pos, sphere)
-                //console.log(dist)
+                dist = closestSphereDist(pos, scene)
+                // console.log(dist)
             } 
             
+            // console.log(x, y, dist)
             if (dist <= 1) {
                 plot(x, y, "#FF0000")
+                
             } else {
                 plot(x, y, "#00FF00")
             }
@@ -51,7 +58,23 @@ function calc (scene, camera) {
 
 
 
-let sphere = [0, 0, 0, 8]
-let camera = [[0, 0, 0], [0, 0]]
-calc([sphere], camera)
+let scene = [
+    [10, 0, 0, 5],
+    [5, 5, 0, 3]
+]
+
+// lat: north-south, rotates around x,y plane
+// lon: east-west, rotates around z axis
+
+// [[x, y, z], [lat, lon]]
+let camera = [
+    [0, 0, 0],
+    [rad(90), 0]
+]
+
+calc(
+    scene,
+    camera
+)
+
 
