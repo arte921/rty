@@ -1,4 +1,3 @@
-
 function sphereDistance (pos, sphere) {
     return Math.sqrt(
         (pos[0] - sphere[0]) ** 2   +
