@@ -50,13 +50,12 @@ let rad = deg => deg / 180 * Math.PI
 
 // ############################# begin main part #############################
 
-const width = 80
-const height = 80
+const width = 20
+const height = 20
 
 function calc (scene, camera) {
     let direction = camera[1]
     let sphere = scene[0]
-    console.log(scene)
     let screensize = [width, height]
     let oglat = direction[0]
     let oglon = direction[1]
@@ -120,4 +119,14 @@ calc(
     camera
 )
 
+function move () {
+    calc(scene, camera)
 
+    camera = [
+        add(camera[0], [7.5, 5, 0], 1 / 60),
+        add(camera[1], [0, 1], rad(100) / 60)
+    ]
+
+}
+
+setInterval(move, 10)
